@@ -5,7 +5,7 @@ timeseries_downloader: ## Run the timerseries downloader app
 	python -m iexexamples.dash.timeseries_downloader
 
 tests: ## Make unit tests
-	python -m pytest -v iexexamples --cov=iexexamples --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	IEX_TOKEN=Tpk_ecc89ddf30a611e9958142010a80043c python -m pytest -v iexexamples --cov=iexexamples --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
 	python -m flake8 iexexamples setup.py
