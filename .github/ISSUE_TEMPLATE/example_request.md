@@ -17,4 +17,4 @@ Is this a single page react news app? A lightweight analytics dashboard in pytho
 Is this an example for developers? For business people? Quants or data scientists?
 
 **Additional context**
-Add any other context or screenshots about the feature request here.
+Add any other context or screenshots about the requested example here.
