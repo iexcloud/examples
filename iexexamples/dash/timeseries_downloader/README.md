@@ -1,5 +1,7 @@
-# Timeseries Downlaoder
+# Timeseries Downloader
 Download Datasets from [time-series](https://iexcloud.io/docs/api/#time-series) as CSV
+
+<img src="../../../docs/img/timeseries_downloader.png" alt="Timeseries Downloader"></img>
 
 ## Run
 Run with:

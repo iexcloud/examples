@@ -33,7 +33,7 @@ class TimeseriesDownloader(object):
     def __init__(self):
         # Instantiate dash instance
         self.app = dash.Dash(
-            title="IEX - Timeseries Downloader",
+            title="Timeseries Downloader",
             suppress_callback_exceptions=True,
             external_stylesheets=["https://iexcloud.io/css/cloud.css"],
         )
@@ -52,7 +52,6 @@ class TimeseriesDownloader(object):
     def initialize(self):
         """Initialize:
         - pyEX Client
-        - Pull data from cache if available
         - Setup Dash layouts
         - Setup Dash callbacks
         """
@@ -75,19 +74,25 @@ class TimeseriesDownloader(object):
         self.initializeData()
 
     def initializeLayout(self):
-        # id dropdown
+        # Dropdown containing all timeseries IDs
         self.id_dropdown = dcc.Dropdown(
             id="id-dropdown",
             className="mb2",
             options=[],
             value=None,
         )
+
+        # Dropdown containing all timeseries keys
+        # for the provided timeseries ID
         self.key_dropdown = dcc.Dropdown(
             id="key-dropdown",
             className="mb2",
             options=[],
             value=None,
         )
+
+        # Dropdown containing all timeseries subkeys
+        # for the provided timeseries ID and key
         self.subkey_dropdown = dcc.Dropdown(
             id="subkey-dropdown",
             className="mb2",
@@ -95,6 +100,8 @@ class TimeseriesDownloader(object):
             value=None,
         )
 
+        # Dropdown with collection of supported
+        # ranges
         self.range_dropdown = dcc.Dropdown(
             id="range-dropdown",
             className="mb2",
@@ -103,8 +110,11 @@ class TimeseriesDownloader(object):
             value="1m",
         )
 
+        # Text input for the folder to which the
+        # downloaded CSVs should be emitted
         self.location_input = dcc.Input(
-            placeholder="Enter a location...",
+            id="location-input",
+            placeholder="Path to output folder...",
             type="text",
             value="",
             required=True,
@@ -125,12 +135,12 @@ class TimeseriesDownloader(object):
                         ),
                         html.H1(
                             className="hero-header",  # this is dictated in cloud.css
-                            children="IEX - Timeseries Downloader",
+                            children="Timeseries Downloader",
                             style={"paddingTop": "25px"},
                         ),
                         html.P(
                             className="section-subtitle px2",  # these are dictated by cloud.css
-                            children="Browse and download timseries datasets",
+                            children="Browse and download timeseries datasets",
                         ),
                     ],
                 ),
@@ -178,14 +188,18 @@ class TimeseriesDownloader(object):
                     html.Label(
                         id="data-download-done",
                         style={"display": "none"},
-                        children="Downloaded to $HOME/Downloads/timeseries-data.csv!",
+                        children="",
                     ),
                 ),
+                # These two are just placeholder targets for
+                # callbacks that dont really do anything
                 html.Div(id="fake-output1", style={"display": "none"}),
+                html.Div(id="fake-output2", style={"display": "none"}),
             ],
         )
 
     def initializeCallbacks(self):
+        # Callback to populate key input based on ID
         @self.app.callback(
             Output("key-dropdown", "options"),
             Input("id-dropdown", "value"),
@@ -203,6 +217,7 @@ class TimeseriesDownloader(object):
             return ret
             # return [{"label": x["value"], "value": x["value"]} for x in self.client.queryMetadata(id=idDropdownValue)]
 
+        # Callback to populate subkey input based on key
         @self.app.callback(
             Output("subkey-dropdown", "options"),
             Input("key-dropdown", "value"),
@@ -223,6 +238,7 @@ class TimeseriesDownloader(object):
             return ret
             # return [{"label": x["value"], "value": x["value"]} for x in self.client.queryMetadata(id=idDropdownValue)]
 
+        # Callback to ensure subkey and range are written properly
         @self.app.callback(
             Output("fake-output1", "children"),
             [
@@ -236,21 +252,28 @@ class TimeseriesDownloader(object):
             self.range_dropdown.value = rangeDropdownValue
             return []
 
+        # Callback to ensure location is written properly
         @self.app.callback(
-            Output("data-download-done", "style"),
+            Output("fake-output2", "children"),
+            Input("location-input", "value"),
+        )
+        def handleLocationChange(locationValue):
+            # TODO why didnt this happen automatically?
+            self.location_input.value = locationValue
+            return []
+
+        # Callback to download and emit file
+        @self.app.callback(
+            [
+                Output("data-download-done", "style"),
+                Output("data-download-done", "children"),
+            ],
             Input("download-data", "n_clicks"),
         )
         def downloadData(dataClick):
             if dataClick and dataClick > 0 and self.id_dropdown.value:
-                print(
-                    dict(
-                        id=self.id_dropdown.value,
-                        key=self.key_dropdown.value,
-                        subkey=self.subkey_dropdown.value,
-                        range=self.range_dropdown.value,
-                        location=self.location_input.value,
-                    )
-                )
+                # Fetch timeseries data via pyEX
+                # as a dataframe
                 df = self.client.timeSeriesDF(
                     id=self.id_dropdown.value,
                     key=self.key_dropdown.value,
@@ -259,23 +282,35 @@ class TimeseriesDownloader(object):
                     limit=5000,
                 )
 
-                if os.path.exists(os.path.abspath(self.location_input.value)):
-                    df.to_csv(
-                        os.path.join(
-                            os.path.abspath(self.location_input.value),
-                            "{}_{}_{}_{}.csv".format(
-                                self.id_dropdown.value,
-                                self.key_dropdown.value,
-                                self.subkey_dropdown.value,
-                                self.range_dropdown.value,
-                            ),
-                        )
+                # Check if the output folder exists
+                folderPath = os.path.abspath(
+                    os.path.expanduser(self.location_input.value)
+                )
+                if os.path.exists(folderPath):
+                    filename = "{}_{}_{}_{}.csv".format(
+                        self.id_dropdown.value,
+                        self.key_dropdown.value,
+                        self.subkey_dropdown.value,
+                        self.range_dropdown.value,
                     )
 
-                return {"display": "block"}
-            return {"display": "none"}
+                    pathName = os.path.join(folderPath, filename)
+
+                    # emit as CSV file
+                    df.to_csv(pathName)
+
+                    outputText = "Downloaded to {}".format(pathName)
+                else:
+                    outputText = "Folder does not exist: {}".format(
+                        self.location_input.value
+                    )
+
+                return {"display": "block"}, outputText
+            return {"display": "none"}, ""
 
     def initializeData(self):
+        # set initial id dropdown
+        # to be all timeseries IDs
         self.id_dropdown.options = [
             {"label": x["value"], "value": x["value"]}
             for x in self.client.queryMetadata()
