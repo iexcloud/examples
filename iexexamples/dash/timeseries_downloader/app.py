@@ -236,7 +236,6 @@ class TimeseriesDownloader(object):
             ):
                 ret.append({"label": x["value"], "value": x["value"]})
             return ret
-            # return [{"label": x["value"], "value": x["value"]} for x in self.client.queryMetadata(id=idDropdownValue)]
 
         # Callback to ensure subkey and range are written properly
         @self.app.callback(
