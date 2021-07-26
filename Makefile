@@ -9,7 +9,7 @@ testpy:  ## Run python tests
 	IEX_TOKEN=Tpk_ecc89ddf30a611e9958142010a80043c python -m pytest -v iexexamples --cov=iexexamples --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 testnotebook:  ## Run notebook tests
-	IEX_TOKEN=Tpk_ecc89ddf30a611e9958142010a80043c python -m nbconvert --to notebook --execute notebooks/*.ipynb
+	IEX_TOKEN=Tpk_ecc89ddf30a611e9958142010a80043c python -m nbconvert --to notebook --execute --ExecutePreprocessor.kernel_name=python3 notebooks/*.ipynb
 
 tests: testpy testnotebook ## Make unit tests
 
