@@ -26,7 +26,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel twine nbconvert
+        python -m pip install --upgrade pip setuptools wheel twine nbconvert IPython
+        python -m jupyter kernelspec install-self
         python -m pip install -e .[dev]
 
     - name: Lint
