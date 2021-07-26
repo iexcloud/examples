@@ -4,8 +4,15 @@ yield_curve:  ## Run the yield curve app
 timeseries_downloader: ## Run the timerseries downloader app
 	python -m iexexamples.dash.timeseries_downloader
 
-tests: ## Make unit tests
+
+testpy:  ## Run python tests
 	IEX_TOKEN=Tpk_ecc89ddf30a611e9958142010a80043c python -m pytest -v iexexamples --cov=iexexamples --junitxml=python_junit.xml --cov-report=xml --cov-branch
+
+testnotebook:  ## Run notebook tests
+	jupyter kernelspec list
+	IEX_TOKEN=Tpk_ecc89ddf30a611e9958142010a80043c python -m nbconvert --to notebook --execute --ExecutePreprocessor.kernel_name=python notebooks/*.ipynb
+
+tests: testpy testnotebook ## Make unit tests
 
 lint: ## run linter
 	python -m flake8 iexexamples setup.py

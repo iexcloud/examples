@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>IEX Cloud Examples</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/white.min.css" id="theme">
+        <style>
+            .reveal .smallfont {
+                font-size: 18px;
+            }
+        </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <section >
+                    <section data-markdown data-separator="---">
+                        <!-- .slide: data-background="#000000" -->
+                        <script type="text/template">
+                            # IEX Cloud Examples
+
+                            Navigate this slideshow with the arrow keys
+
+                            Press the right arrow key to begin!
+
+                        </script>
+                    </section>
+                </section>
+
+                <section >
+                    <section data-markdown data-separator="---">
+                        <script type="text/template">
+                            These examples will show how to pull down some IEX Cloud data and do some basic operations and visualizations  <!-- .element: class="fragment" data-fragment-index="1" -->
+
+                            Press the down arrow to continue  <!-- .element: class="fragment" data-fragment-index="2" -->
+
+                            ---
+
+                            First, let's familiarize ourselves with the interface
+ 
+                            <span>We are running in an application called [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) hosted on a cloud machine</span>  <!-- .element: class="fragment" data-fragment-index="1" -->
+
+                            ---
+
+                            <span style="display:flex; flex-direction:row;justify-content:center;align-items:center;"><img src="https://raw.githubusercontent.com/timkpaine/iex-python-examples/main/binder/_assets/jlab.png" width=50>On the lefthand side, there are a variety of buttons.</img></span> <!-- .element: class="fragment" data-fragment-index="1" -->
+                            
+                            ---
+                            
+                            <span style="display:flex; flex-direction:row;justify-content:center;align-items:center;"><img src="https://raw.githubusercontent.com/timkpaine/iex-python-examples/main/binder/_assets/filebrowser.png" width=400></img></span>
+                            
+                            The top most is a file browser
+                            
+                            ---
+                            
+                            <span style="display:flex; flex-direction:row;justify-content:center;align-items:center;"><img src="https://raw.githubusercontent.com/timkpaine/iex-python-examples/main/binder/_assets/running.png" width=400></img></span>
+
+                            The stop button  will show you your running notebooks
+                            
+                            ---
+                            
+                            <span style="display:flex; flex-direction:row;justify-content:center;align-items:center;"><img src="https://raw.githubusercontent.com/timkpaine/iex-python-examples/main/binder/_assets/command.png" width=400></img></span>
+
+                            The command palette will list all avaiable commands
+
+                            ---
+
+                            <span style="display:flex; flex-direction:row;justify-content:center;align-items:center;"><img src="https://raw.githubusercontent.com/timkpaine/iex-python-examples/main/binder/_assets/properties.png" width=400></img></span>
+
+                            The gear button will show notebook properties once one is opened
+                            
+                            ---
+                            
+                            <span style="display:flex; flex-direction:row;justify-content:center;align-items:center;"><img src="https://raw.githubusercontent.com/timkpaine/iex-python-examples/main/binder/_assets/tabs.png" width=400></img></span>
+
+                            The tab viewer will let you navigate across your open tabs
+
+                            ---
+                            
+                            <span style="display:flex; flex-direction:row;justify-content:center;align-items:center;"><img src="https://raw.githubusercontent.com/timkpaine/iex-python-examples/main/binder/_assets/extensions.png" width=400></img></span>
+
+                            Finally, the extension browser will let you manage and install extensions for JupyterLab
+
+                        </script>
+                    </section>
+                </section>
+
+                <section >
+                    <section data-markdown data-separator="---">
+                        <script type="text/template">
+                            ## Notebooks
+
+                            The contents of these tutorials are written in Jupyter Notebooks  <!-- .element: class="fragment" data-fragment-index="1" -->
+
+                            These are scratchpads where code, formatted text, and data outputs coexist.  <!-- .element: class="fragment" data-fragment-index="2" -->
+
+                            They are a good place to perform interactive analysis  <!-- .element: class="fragment" data-fragment-index="3" -->
+
+                            Developers will opt for a more code-oriented platform, but notebooks are perfect for us.  <!-- .element: class="fragment" data-fragment-index="4" -->
+
+                            ---
+
+                            To get started, navigate to the first notebook in the notebooks folder using the file browser and double click on it
+
+                            `basic/1_OHLCV.ipynb`
+
+                        </script>
+                    </section>
+                </section>
+            </div>
+		</div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.1/marked.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/js/reveal.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/plugin/markdown/markdown.min.js"></script>
+        
+		<script>
+			Reveal.initialize({
+				center: true,
+				controls: true,
+				history: true,
+				plugins: [ RevealMarkdown ],
+				progress: true,
+                slideNumber: true
+			});
+        </script>
+        
+	</body>
+</html>

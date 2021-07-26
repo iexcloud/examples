@@ -1,0 +1,5 @@
+cmake
+graphviz-dev
+libboost-filesystem-dev
+sudo
+tzdata
