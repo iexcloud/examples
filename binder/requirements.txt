@@ -1,6 +1,8 @@
 ipydagred3
+ipykernel
 ipympl
 ipyregulartable
+IPython
 ipywidgets
 jupyterlab
 jupyterlab_iframe
